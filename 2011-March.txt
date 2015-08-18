@@ -1,0 +1,89 @@
+From admin at berlios.de  Wed Mar  2 10:01:41 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Wed, 2 Mar 2011 12:01:41 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17731] Issues with parallel make => Fixed in
+	KEDR 0.2
+Message-ID: <201103020901.p2291fO6019466@unicorn.berlios.de>
+
+Bug #17731, was updated on 2010-Nov-23 15:44
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Closed
+Resolution: Fixed
+Bug Group: None
+Priority: 5
+Submitted by: d_uragan
+Assigned to : none
+Summary: Issues with parallel make => Fixed in KEDR 0.2
+
+Details: With alias make='make -j2', kedr build fails with the following log:
+
+Scanning dependencies of target kedr_base
+[  0%] Scanning dependencies of target kedr_controller
+Generating base.c
+make[2]: *** No rule to make target `base/Module.symvers', needed by `controller/kedr_controller.ko'.  Stop. 
+make[1]: *** [controller/CMakeFiles/kedr_controller.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[  0%] Generating kedr_base.ko, Module.symvers
+make[3]: warning: jobserver unavailable: using -j1.  Add `+' to parent make rule.
+[  3%] Built target kedr_base
+make: *** [all] Error 2
+
+If I now call 'make' once more, the build continues and finishes successfully.
+
+Follow-Ups:
+
+Date: 2010-Dec-17 17:28
+By: euspectre
+
+Comment:
+This issue should now be fixed in the repository
+-------------------------------------------------------
+
+Date: 2010-Nov-23 16:31
+By: euspectre
+
+Comment:
+Yes, this is a known issue, see http://openfacts2.berlios.de/wikien/index.php/KEDR_Known_Issues
+
+We will fix it in the future versions of KEDR.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17731&group_id=11780
+
+
+From admin at berlios.de  Fri Mar 18 14:19:17 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Fri, 18 Mar 2011 05:19:17 -0800 (AKDT)
+Subject: [Kedr-devel] [Bug #18008] Leak checker need to intercept more
+	functions
+Message-ID: <201103181319.p2IDJH7Q022584@unicorn.berlios.de>
+
+Bug #18008, was updated on 2011-Mar-18 05:19
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: tsyvarev
+Assigned to : none
+Summary: Leak checker need to intercept more functions
+
+Details: 'nfs' kernel module uses at least next functions, which internally call alloc/free-like functions:
+
+add_to_page_cache ~ free
+posix_acl_from_mode ~ alloc
+match_strdup ~ alloc
+
+Without interception and making model of these functions, leak checker cannot produce correct verdict about memory allocations/deallocation.
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18008&group_id=11780
+
+

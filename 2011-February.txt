@@ -1,0 +1,176 @@
+From admin at berlios.de  Thu Feb 24 15:03:20 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Thu, 24 Feb 2011 17:03:20 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17596] start, stop and start again failure
+Message-ID: <201102241403.p1OE3KOI017373@unicorn.berlios.de>
+
+Bug #17596, was updated on 2010-Oct-12 18:39
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: None
+Status: Closed
+Resolution: Works For Me
+Bug Group: None
+Priority: 5
+Submitted by: andrey86
+Assigned to : none
+Summary: start, stop and start again failure
+
+Details: I've tried to start KEDR using default configuration and kedr_sample_target.ko:
+
+1. sudo kedr start kedr_sample_target.ko
+starting KEDR...
+KEDR started.
+2. sh kedr_sample_target load
+3. sh kedr_sample_target unload
+4. sudo kedr stop
+Stopping KEDR...
+sed: can't read /tmp/kedr/control/start.conf: No such file or directory
+KEDR stopped.
+5. sudo kedr start kedr_sample_target.ko
+Service already running. For stop it call '/usr/local/bin/kedr stop'
+
+So, I cannot start the KEDR again.
+
+Follow-Ups:
+
+Date: 2011-Feb-24 17:03
+By: euspectre
+
+Comment:
+KEDR control system was revisited. We still cannot reproduce the problem. Closing.
+-------------------------------------------------------
+
+Date: 2010-Oct-25 12:16
+By: euspectre
+
+Comment:
+KEDR now uses /var/tmp instead of /tmp for these purposes. Please check if the problem persists.
+-------------------------------------------------------
+
+Date: 2010-Oct-13 11:35
+By: tsyvarev
+
+Comment:
+Couldn't reproduce this behavior. My output:
+
+1. sudo kedr start kedr_sample_target.ko
+starting KEDR...
+KEDR started.
+2. sudo sh kedr_sample_target load
+3. sudo sh kedr_sample_target unload
+4. sudo kedr stop
+Stopping KEDR...
+KEDR stopped.
+5. sudo kedr start kedr_sample_target.ko
+starting KEDR...
+KEDR started.
+
+According to the submitting output, stopping KEDR (4-th step) was failed - 'kedr stop' script couldn't read file, which it had created at 'kedr start' call.
+
+"KEDR stopped." was incorrect message after this step.
+
+But cause, why '/tmp/kedr/control/start.conf' file is not exist, is unclear.
+May be, there is a daemon, which clears '/tmp' directory periodically.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17596&group_id=11780
+
+
+From admin at berlios.de  Thu Feb 24 16:04:15 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Thu, 24 Feb 2011 18:04:15 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17955] Support 'caller_address' even if stack
+	traces are unreliable
+Message-ID: <201102241504.p1OF4F3e024810@unicorn.berlios.de>
+
+Bug #17955, was updated on 2011-Feb-24 18:04
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: euspectre
+Assigned to : none
+Summary: Support 'caller_address' even if stack traces are unreliable
+
+Details: We should revisit the code that makes 'caller_address' variable available for usage in fault simulation scenarios. 
+
+Currently, this mechanism relies on stack trace support, at least 2 reliable stack frames are needed. 
+
+On some systems, however, stack traces obtained with dump_trace()/save_stack_trace() are not reliable, Debian 6 is an example. For now, we automatically disable support for 'caller_address' on such systems. We should make it possible to use 'caller_address' even there. At least one stack frame is still reliable there (we obtain it via GCC built-in).
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17955&group_id=11780
+
+
+From admin at berlios.de  Thu Feb 24 14:58:54 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Thu, 24 Feb 2011 16:58:54 +0300 (MSK)
+Subject: [Kedr-devel] [Feature #5143] rename fault_simulation.h to fsim.h
+Message-ID: <201102241358.p1ODwsDM011786@unicorn.berlios.de>
+
+Feature Request #5143, was updated on 2010-Oct-12 13:02
+You can respond by visiting: 
+http://developer.berlios.de/feature/?func=detailfeature&feature_id=5143&group_id=11780
+
+Category: None
+Status: Closed
+Priority: 5
+Summary: rename fault_simulation.h to fsim.h
+
+By: euspectre
+Date: 2011-Feb-24 16:58
+
+Message:
+Logged In: YES 
+user_id=53300
+Browser: Opera/9.80 (Windows NT 5.1; U; en) Presto/2.7.62 Version/11.01
+
+Closing, because status quo seems to have been acceptable so far.
+
+----------------------------------------------------------------------
+
+By: tsyvarev
+Date: 2010-Oct-13 12:26
+
+Message:
+Logged In: YES 
+user_id=57783
+Browser: Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.6.30 Version/10.62
+
+Current strategy of naming header files is:
+
+'kedr/<component_name>/<header_file_name>.h'
+
+where 
+'kedr' - domain name, which coincides with program name, 
+<component_name> -  name of kedr-component, which ships 
+given header file,
+<header_file_name> - short name of header file, which describe 
+meaning of this header file.
+
+<kedr/fault_simulation/fault_simulation.h>
+
+ follows precisely to the above conventions.
+
+
+Now 'kedr/fault_simulation' headers directory contains only 
+'fault_simulation.h' and 'calculator.h' headers.
+
+'fsim_*.h' headers was deleted as architecture of fault simulation 
+has changed.
+
+Note, that names of some headers are rough at this stage of 
+project development.
+
+----------------------------------------------------------------------
+You can respond by visiting: 
+http://developer.berlios.de/feature/?func=detailfeature&feature_id=5143&group_id=11780
+
+

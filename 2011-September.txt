@@ -1,0 +1,157 @@
+From admin at berlios.de  Thu Sep  8 15:42:23 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Thu, 8 Sep 2011 17:42:23 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18346] Intercept the implementation of kfree_rcu
+Message-ID: <201109081342.p88DgNUO014963@unicorn.berlios.de>
+
+Bug #18346, was updated on 2011-Sep-08 17:42
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: euspectre
+Assigned to : euspectre
+Summary: Intercept the implementation of kfree_rcu
+
+Details: LeakCheck should handle kfree_rcu() (appeared in version 3.0 of the kernel). For the present, it does not and therefore gives false positives.
+
+N.B. kfree_rcu() is actually a macro, so we need to track whatever it unwraps to at the binary level.
+
+Reported-by: Brice Goglin
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18346&group_id=11780
+
+
+From admin at berlios.de  Fri Sep 23 14:24:43 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Fri, 23 Sep 2011 16:24:43 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18346] (Fixed in Hg) Intercept the
+	implementation of kfree_rcu
+Message-ID: <201109231224.p8NCOhbf027507@unicorn.berlios.de>
+
+Bug #18346, was updated on 2011-Sep-08 17:42
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: euspectre
+Assigned to : euspectre
+Summary: (Fixed in Hg) Intercept the implementation of kfree_rcu
+
+Details: LeakCheck should handle kfree_rcu() (appeared in version 3.0 of the kernel). For the present, it does not and therefore gives false positives.
+
+N.B. kfree_rcu() is actually a macro, so we need to track whatever it unwraps to at the binary level.
+
+Reported-by: Brice Goglin
+
+Follow-Ups:
+
+Date: 2011-Sep-23 16:24
+By: euspectre
+
+Comment:
+The fix is now in the repository.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18346&group_id=11780
+
+
+From admin at berlios.de  Fri Sep 23 14:25:43 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Fri, 23 Sep 2011 16:25:43 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to
+	intercept more functions
+Message-ID: <201109231225.p8NCPheh029988@unicorn.berlios.de>
+
+Bug #18008, was updated on 2011-Mar-18 16:19
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: tsyvarev
+Assigned to : euspectre
+Summary: (Fixed in Hg) LeakCheck needs to intercept more functions
+
+Details: 'nfs' kernel module uses at least next functions, which internally call alloc/free-like functions:
+
+add_to_page_cache ~ free
+posix_acl_from_mode ~ alloc
+match_strdup ~ alloc
+
+Without interception and making model of these functions, leak checker cannot produce correct verdict about memory allocations/deallocation.
+
+Follow-Ups:
+
+Date: 2011-Sep-23 16:25
+By: euspectre
+
+Comment:
+The fix is now in the repository.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18008&group_id=11780
+
+
+From admin at berlios.de  Fri Sep 23 14:26:30 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Fri, 23 Sep 2011 16:26:30 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to
+	intercept more functions
+Message-ID: <201109231226.p8NCQU1s002009@unicorn.berlios.de>
+
+Bug #18008, was updated on 2011-Mar-18 16:19
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: tsyvarev
+Assigned to : euspectre
+Summary: (Fixed in Hg) LeakCheck needs to intercept more functions
+
+Details: 'nfs' kernel module uses at least next functions, which internally call alloc/free-like functions:
+
+add_to_page_cache ~ free
+posix_acl_from_mode ~ alloc
+match_strdup ~ alloc
+
+Without interception and making model of these functions, leak checker cannot produce correct verdict about memory allocations/deallocation.
+
+Follow-Ups:
+
+Date: 2011-Sep-23 16:26
+By: euspectre
+
+Comment:
+The fix is now in the repository.
+-------------------------------------------------------
+
+Date: 2011-Sep-23 16:25
+By: euspectre
+
+Comment:
+The fix is now in the repository.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18008&group_id=11780
+
+

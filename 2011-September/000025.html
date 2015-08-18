@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to	intercept more functions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/kedr-devel/2011-September/index.html" >
+   <LINK REL="made" HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BBug%20%2318008%5D%20%28Fixed%20in%20Hg%29%20LeakCheck%20needs%20to%0A%09intercept%20more%20functions&In-Reply-To=%3C201109231225.p8NCPheh029988%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000024.html">
+   <LINK REL="Next"  HREF="000026.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to	intercept more functions</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BBug%20%2318008%5D%20%28Fixed%20in%20Hg%29%20LeakCheck%20needs%20to%0A%09intercept%20more%20functions&In-Reply-To=%3C201109231225.p8NCPheh029988%40unicorn.berlios.de%3E"
+       TITLE="[Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to	intercept more functions">admin at berlios.de
+       </A><BR>
+    <I>Fri Sep 23 14:25:43 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000024.html">[Kedr-devel] [Bug #18346] (Fixed in Hg) Intercept the	implementation of kfree_rcu
+</A></li>
+        <LI>Next message: <A HREF="000026.html">[Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to	intercept more functions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18008, was updated on 2011-Mar-18 16:19
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: tsyvarev
+Assigned to : euspectre
+Summary: (Fixed in Hg) LeakCheck needs to intercept more functions
+
+Details: 'nfs' kernel module uses at least next functions, which internally call alloc/free-like functions:
+
+add_to_page_cache ~ free
+posix_acl_from_mode ~ alloc
+match_strdup ~ alloc
+
+Without interception and making model of these functions, leak checker cannot produce correct verdict about memory allocations/deallocation.
+
+Follow-Ups:
+
+Date: 2011-Sep-23 16:25
+By: euspectre
+
+Comment:
+The fix is now in the repository.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18008&amp;group_id=11780">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18008&amp;group_id=11780</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000024.html">[Kedr-devel] [Bug #18346] (Fixed in Hg) Intercept the	implementation of kfree_rcu
+</A></li>
+	<LI>Next message: <A HREF="000026.html">[Kedr-devel] [Bug #18008] (Fixed in Hg) LeakCheck needs to	intercept more functions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/kedr-devel">More information about the Kedr-devel
+mailing list</a><br>
+</body></html>

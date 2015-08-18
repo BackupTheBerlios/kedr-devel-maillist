@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Kedr-devel] [Feature #5143] rename fault_simulation.h to fsim.h
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/kedr-devel/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BFeature%20%235143%5D%20rename%20fault_simulation.h%20to%20fsim.h&In-Reply-To=%3C201102241358.p1ODwsDM011786%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000005.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Kedr-devel] [Feature #5143] rename fault_simulation.h to fsim.h</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BFeature%20%235143%5D%20rename%20fault_simulation.h%20to%20fsim.h&In-Reply-To=%3C201102241358.p1ODwsDM011786%40unicorn.berlios.de%3E"
+       TITLE="[Kedr-devel] [Feature #5143] rename fault_simulation.h to fsim.h">admin at berlios.de
+       </A><BR>
+    <I>Thu Feb 24 14:58:54 CET 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000005.html">[Kedr-devel] [Bug #17596] start, stop and start again failure
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Feature Request #5143, was updated on 2010-Oct-12 13:02
+You can respond by visiting: 
+<A HREF="http://developer.berlios.de/feature/?func=detailfeature&amp;feature_id=5143&amp;group_id=11780">http://developer.berlios.de/feature/?func=detailfeature&amp;feature_id=5143&amp;group_id=11780</A>
+
+Category: None
+Status: Closed
+Priority: 5
+Summary: rename fault_simulation.h to fsim.h
+
+By: euspectre
+Date: 2011-Feb-24 16:58
+
+Message:
+Logged In: YES 
+user_id=53300
+Browser: Opera/9.80 (Windows NT 5.1; U; en) Presto/2.7.62 Version/11.01
+
+Closing, because status quo seems to have been acceptable so far.
+
+----------------------------------------------------------------------
+
+By: tsyvarev
+Date: 2010-Oct-13 12:26
+
+Message:
+Logged In: YES 
+user_id=57783
+Browser: Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.6.30 Version/10.62
+
+Current strategy of naming header files is:
+
+'kedr/&lt;component_name&gt;/&lt;header_file_name&gt;.h'
+
+where 
+'kedr' - domain name, which coincides with program name, 
+&lt;component_name&gt; -  name of kedr-component, which ships 
+given header file,
+&lt;header_file_name&gt; - short name of header file, which describe 
+meaning of this header file.
+
+&lt;kedr/fault_simulation/fault_simulation.h&gt;
+
+ follows precisely to the above conventions.
+
+
+Now 'kedr/fault_simulation' headers directory contains only 
+'fault_simulation.h' and 'calculator.h' headers.
+
+'fsim_*.h' headers was deleted as architecture of fault simulation 
+has changed.
+
+Note, that names of some headers are rough at this stage of 
+project development.
+
+----------------------------------------------------------------------
+You can respond by visiting: 
+<A HREF="http://developer.berlios.de/feature/?func=detailfeature&amp;feature_id=5143&amp;group_id=11780">http://developer.berlios.de/feature/?func=detailfeature&amp;feature_id=5143&amp;group_id=11780</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000005.html">[Kedr-devel] [Bug #17596] start, stop and start again failure
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/kedr-devel">More information about the Kedr-devel
+mailing list</a><br>
+</body></html>

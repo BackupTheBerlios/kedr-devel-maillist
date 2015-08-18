@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Kedr-devel] [Bug #18092] Oops in &quot;instrumentor.01&quot; test on Ubuntu	11.04
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/kedr-devel/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BBug%20%2318092%5D%20Oops%20in%20%22instrumentor.01%22%20test%20on%20Ubuntu%0A%0911.04&In-Reply-To=%3C201106170851.p5H8pQVi028610%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000019.html">
+   <LINK REL="Next"  HREF="000021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Kedr-devel] [Bug #18092] Oops in &quot;instrumentor.01&quot; test on Ubuntu	11.04</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BBug%20%2318092%5D%20Oops%20in%20%22instrumentor.01%22%20test%20on%20Ubuntu%0A%0911.04&In-Reply-To=%3C201106170851.p5H8pQVi028610%40unicorn.berlios.de%3E"
+       TITLE="[Kedr-devel] [Bug #18092] Oops in &quot;instrumentor.01&quot; test on Ubuntu	11.04">admin at berlios.de
+       </A><BR>
+    <I>Fri Jun 17 10:51:26 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000019.html">[Kedr-devel] [Bug #17955] Support 'caller_address' even if stack	traces are unreliable
+</A></li>
+        <LI>Next message: <A HREF="000021.html">[Kedr-devel] [Bug #18091] Different order of args of	kmem_cache_alloc_*
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18092, was updated on 2011-May-04 11:07
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Tests
+Status: Closed
+Resolution: Fixed
+Bug Group: None
+Priority: 5
+Submitted by: euspectre
+Assigned to : none
+Summary: Oops in &quot;instrumentor.01&quot; test on Ubuntu 11.04
+
+Details: The test &quot;core.components.instrumentor.01&quot; fails with a kernel oops on Ubuntu 11.04 (32- and 64-bit versions). Here is the system log from 64-bit Ubuntu:
+
+--------
+[  891.499978] BUG: unable to handle kernel paging request at ffffffffa0111016
+[  891.500010] IP: [&lt;ffffffffa01c1284&gt;] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500030] PGD 1a05067 PUD 1a09063 PMD 36e45067 PTE 23ad8161
+[  891.500041] Oops: 0003 [#1] SMP 
+[  891.500050] last sysfs file: /sys/devices/system/cpu/cpu1/cache/index2/shared_cpu_map
+[  891.500066] CPU 1 
+[  891.500067] Modules linked in: instrumentor_test_module(+) instrumentor_module binfmt_misc vboxvideo drm vesafb snd_hda_codec_idt snd_hda_intel snd_hda_codec snd_hwdep snd_pcm snd_seq_midi snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device snd ppdev psmouse soundcore serio_raw parport_pc vboxsf vboxguest i2c_piix4 snd_page_alloc lp parport ahci libahci e1000
+[  891.500103] 
+[  891.500112] Pid: 20640, comm: insmod Not tainted 2.6.38-8-generic #42-Ubuntu innotek GmbH VirtualBox
+[  891.500123] RIP: 0010:[&lt;ffffffffa01c1284&gt;]  [&lt;ffffffffa01c1284&gt;] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500138] RSP: 0018:ffff880023895e08  EFLAGS: 00010216
+[  891.500139] RAX: 00000000000afff6 RBX: ffffffffa0112000 RCX: ffff88002aea8b20
+[  891.500141] RDX: 0000000000000000 RSI: 0000000000000005 RDI: ffffffffa0111016
+[  891.500143] RBP: ffff880023895e98 R08: ffffffffa011101a R09: 0000000000000000
+[  891.500144] R10: 0000000000000000 R11: 8000000000000000 R12: ffffffffa0111015
+[  891.500146] R13: ffff880023895eb8 R14: 00017f8f601c1000 R15: ffff88002aea8730
+[  891.500153] FS:  00007fd7e763f720(0000) GS:ffff88003fd00000(0000) knlGS:0000000000000000
+[  891.500155] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+[  891.500157] CR2: ffffffffa0111016 CR3: 00000000239cb000 CR4: 00000000000006e0
+[  891.500165] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  891.500166] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+[  891.500168] Process insmod (pid: 20640, threadinfo ffff880023894000, task ffff8800269796e0)
+[  891.500170] Stack:
+[  891.500171]  0000000100000000 0000000100000000 0000000100000000 00000101000000e8
+[  891.500174]  0000000100000000 0000000100000000 0000000100000000 00000401000affe6
+[  891.500177]  0000000000000000 010508080000b000 ffffffffa0111015 ffffffffa011101a
+[  891.500180] Call Trace:
+[  891.500184]  [&lt;ffffffffa0111015&gt;] ? test_module_init+0x15/0x1000 [instrumentor_test_module]
+[  891.500187]  [&lt;ffffffffa011101a&gt;] ? test_module_init+0x1a/0x1000 [instrumentor_test_module]
+[  891.500190]  [&lt;ffffffffa01c152d&gt;] kedr_instrumentor_replace_functions+0x21d/0x390 [instrumentor_module]
+[  891.500193]  [&lt;ffffffffa0111000&gt;] ? test_module_init+0x0/0x1000 [instrumentor_test_module]
+[  891.500195]  [&lt;ffffffffa01c1055&gt;] instrument_module+0x15/0x20 [instrumentor_module]
+[  891.500198]  [&lt;ffffffffa0111010&gt;] test_module_init+0x10/0x1000 [instrumentor_test_module]
+[  891.500271]  [&lt;ffffffff81002175&gt;] do_one_initcall+0x45/0x190
+[  891.500305]  [&lt;ffffffff810a4feb&gt;] sys_init_module+0xfb/0x250
+[  891.500316]  [&lt;ffffffff8100c002&gt;] system_call_fastpath+0x16/0x1b
+[  891.500317] Code: 0e eb 2e 0f 1f 40 00 48 85 d2 74 25 48 89 d1 48 3b 41 10 48 8b 11 0f 18 0a 75 ec 48 8b 41 18 48 85 c0 74 0d 4f 8d 04 04 44 29 c0 &lt;89&gt; 07 0f b6 75 be 40 0f b6 f6 e9 82 fe ff ff be 40 01 00 00 48 
+[  891.500350] RIP  [&lt;ffffffffa01c1284&gt;] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500353]  RSP &lt;ffff880023895e08&gt;
+[  891.500354] CR2: ffffffffa0111016
+[  891.500381] ---[ end trace 040026fc91efcba6 ]--- 
+--------
+
+Follow-Ups:
+
+Date: 2011-Jun-17 12:51
+By: euspectre
+
+Comment:
+Fixed in KEDR v.0.3
+-------------------------------------------------------
+
+Date: 2011-May-05 11:02
+By: euspectre
+
+Comment:
+The problem is fixed, the updated sources are in the repository.
+-------------------------------------------------------
+
+Date: 2011-May-04 12:57
+By: euspectre
+
+Comment:
+This is a problem in the test rather than in KEDR Core itself. The test attempts to instrument a target module that is already running. 
+
+However, the module loader makes the code of the target write-protected after all notifications are processed (CONFIG_DEBUG_SET_MODULE_RONX=y), hence the problem. See the implementation of init_module syscall in kernel/module.c for details.
+
+Note that KEDR itself instruments the target when the notifications are being processed, so it is not affected by the problem.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18092&amp;group_id=11780">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18092&amp;group_id=11780</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000019.html">[Kedr-devel] [Bug #17955] Support 'caller_address' even if stack	traces are unreliable
+</A></li>
+	<LI>Next message: <A HREF="000021.html">[Kedr-devel] [Bug #18091] Different order of args of	kmem_cache_alloc_*
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/kedr-devel">More information about the Kedr-devel
+mailing list</a><br>
+</body></html>

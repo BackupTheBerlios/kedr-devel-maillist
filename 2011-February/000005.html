@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Kedr-devel] [Bug #17596] start, stop and start again failure
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/kedr-devel/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BBug%20%2317596%5D%20start%2C%20stop%20and%20start%20again%20failure&In-Reply-To=%3C201102241403.p1OE3KOI017373%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000007.html">
+   <LINK REL="Next"  HREF="000006.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Kedr-devel] [Bug #17596] start, stop and start again failure</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:kedr-devel%40lists.berlios.de?Subject=Re%3A%20%5BKedr-devel%5D%20%5BBug%20%2317596%5D%20start%2C%20stop%20and%20start%20again%20failure&In-Reply-To=%3C201102241403.p1OE3KOI017373%40unicorn.berlios.de%3E"
+       TITLE="[Kedr-devel] [Bug #17596] start, stop and start again failure">admin at berlios.de
+       </A><BR>
+    <I>Thu Feb 24 15:03:20 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000007.html">[Kedr-devel] [Feature #5143] rename fault_simulation.h to fsim.h
+</A></li>
+        <LI>Next message: <A HREF="000006.html">[Kedr-devel] [Bug #17955] Support 'caller_address' even if stack	traces are unreliable
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #17596, was updated on 2010-Oct-12 18:39
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: None
+Status: Closed
+Resolution: Works For Me
+Bug Group: None
+Priority: 5
+Submitted by: andrey86
+Assigned to : none
+Summary: start, stop and start again failure
+
+Details: I've tried to start KEDR using default configuration and kedr_sample_target.ko:
+
+1. sudo kedr start kedr_sample_target.ko
+starting KEDR...
+KEDR started.
+2. sh kedr_sample_target load
+3. sh kedr_sample_target unload
+4. sudo kedr stop
+Stopping KEDR...
+sed: can't read /tmp/kedr/control/start.conf: No such file or directory
+KEDR stopped.
+5. sudo kedr start kedr_sample_target.ko
+Service already running. For stop it call '/usr/local/bin/kedr stop'
+
+So, I cannot start the KEDR again.
+
+Follow-Ups:
+
+Date: 2011-Feb-24 17:03
+By: euspectre
+
+Comment:
+KEDR control system was revisited. We still cannot reproduce the problem. Closing.
+-------------------------------------------------------
+
+Date: 2010-Oct-25 12:16
+By: euspectre
+
+Comment:
+KEDR now uses /var/tmp instead of /tmp for these purposes. Please check if the problem persists.
+-------------------------------------------------------
+
+Date: 2010-Oct-13 11:35
+By: tsyvarev
+
+Comment:
+Couldn't reproduce this behavior. My output:
+
+1. sudo kedr start kedr_sample_target.ko
+starting KEDR...
+KEDR started.
+2. sudo sh kedr_sample_target load
+3. sudo sh kedr_sample_target unload
+4. sudo kedr stop
+Stopping KEDR...
+KEDR stopped.
+5. sudo kedr start kedr_sample_target.ko
+starting KEDR...
+KEDR started.
+
+According to the submitting output, stopping KEDR (4-th step) was failed - 'kedr stop' script couldn't read file, which it had created at 'kedr start' call.
+
+&quot;KEDR stopped.&quot; was incorrect message after this step.
+
+But cause, why '/tmp/kedr/control/start.conf' file is not exist, is unclear.
+May be, there is a daemon, which clears '/tmp' directory periodically.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=17596&amp;group_id=11780">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=17596&amp;group_id=11780</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000007.html">[Kedr-devel] [Feature #5143] rename fault_simulation.h to fsim.h
+</A></li>
+	<LI>Next message: <A HREF="000006.html">[Kedr-devel] [Bug #17955] Support 'caller_address' even if stack	traces are unreliable
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/kedr-devel">More information about the Kedr-devel
+mailing list</a><br>
+</body></html>

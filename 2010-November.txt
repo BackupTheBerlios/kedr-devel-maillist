@@ -1,0 +1,161 @@
+From admin at berlios.de  Mon Nov  8 23:01:21 2010
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 9 Nov 2010 01:01:21 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17591] different binary and source version of
+	the linux kernel
+Message-ID: <201011082201.oA8M1L3Z024206@unicorn.berlios.de>
+
+Bug #17591, was updated on 2010-Oct-11 17:27
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Closed
+Resolution: Later
+Bug Group: None
+Priority: 2
+Submitted by: andrey86
+Assigned to : none
+Summary: different binary and source version of the linux kernel
+
+Details: The binary version of my linux kernel is 2.6.31.5-0.1-desktop (uname -r output), but the version of installed kernel sources is 2.6.31.14-0.1. So, the example ./share/kedr/examples/sample_target/ cannot be built because of the following errors:
+
+make: *** /lib/modules/2.6.31.5-0.1-desktop/build: No such file or directory.  Stop.
+
+My system has /usr/src/linux-2.6.31.14-0.1 directory instead of /lib/modules/2.6.31.5-0.1-desktop and is not provide lower versions of kernel sources in the official software repository.
+
+Follow-Ups:
+
+Date: 2010-Oct-13 11:59
+By: tsyvarev
+
+Comment:
+By default, KEDR is built  against version of the kernel, which is currently running. User should provide by himself existence of infrastructure for build kernel modules in '/lib/modules/<current-kernel-version>/build'.
+
+Possibility to build KEDR against arbitrary kernel version is introduce now in experimental mode. For use it, one should set KBUILD_VERSION_STRING cmake-variable to the version of the preferred kernel when configuring KEDR.
+Again, infrastructure for build kernel modules should be accessible via '/lib/modules/<kernel-version>/build'.
+
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17591&group_id=11780
+
+
+From admin at berlios.de  Fri Nov 12 09:59:44 2010
+From: admin at berlios.de (admin at berlios.de)
+Date: Fri, 12 Nov 2010 11:59:44 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17711] Make the sources comply with Linux kernel
+	coding style
+Message-ID: <201011120859.oAC8xiDO021948@unicorn.berlios.de>
+
+Bug #17711, was updated on 2010-Nov-12 11:59
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 3
+Submitted by: euspectre
+Assigned to : euspectre
+Summary: Make the sources comply with Linux kernel coding style
+
+Details: We should make sure that the sources of KEDR framework comply with coding standards used in the Linux kernel itself and approved by kernel.org specialists.
+
+This is not critical but it could make adoption of KEDR a bit easier for those developers although it is not intended to try to get KEDR into the kernel right now.
+
+checkpatch.pl and whatever other tools used to check the coding style of kernel patches could be used to do this.
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17711&group_id=11780
+
+
+From admin at berlios.de  Tue Nov 23 13:44:17 2010
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 23 Nov 2010 15:44:17 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17731] Issues with parallel make
+Message-ID: <201011231244.oANCiHTu024236@unicorn.berlios.de>
+
+Bug #17731, was updated on 2010-Nov-23 15:44
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: d_uragan
+Assigned to : none
+Summary: Issues with parallel make
+
+Details: With alias make='make -j2', kedr build fails with the following log:
+
+Scanning dependencies of target kedr_base
+[  0%] Scanning dependencies of target kedr_controller
+Generating base.c
+make[2]: *** No rule to make target `base/Module.symvers', needed by `controller/kedr_controller.ko'.  Stop. 
+make[1]: *** [controller/CMakeFiles/kedr_controller.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[  0%] Generating kedr_base.ko, Module.symvers
+make[3]: warning: jobserver unavailable: using -j1.  Add `+' to parent make rule.
+[  3%] Built target kedr_base
+make: *** [all] Error 2
+
+If I now call 'make' once more, the build continues and finishes successfully.
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17731&group_id=11780
+
+
+From admin at berlios.de  Tue Nov 23 14:31:23 2010
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 23 Nov 2010 16:31:23 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17731] Issues with parallel make
+Message-ID: <201011231331.oANDVNGi023955@unicorn.berlios.de>
+
+Bug #17731, was updated on 2010-Nov-23 15:44
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: d_uragan
+Assigned to : none
+Summary: Issues with parallel make
+
+Details: With alias make='make -j2', kedr build fails with the following log:
+
+Scanning dependencies of target kedr_base
+[  0%] Scanning dependencies of target kedr_controller
+Generating base.c
+make[2]: *** No rule to make target `base/Module.symvers', needed by `controller/kedr_controller.ko'.  Stop. 
+make[1]: *** [controller/CMakeFiles/kedr_controller.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[  0%] Generating kedr_base.ko, Module.symvers
+make[3]: warning: jobserver unavailable: using -j1.  Add `+' to parent make rule.
+[  3%] Built target kedr_base
+make: *** [all] Error 2
+
+If I now call 'make' once more, the build continues and finishes successfully.
+
+Follow-Ups:
+
+Date: 2010-Nov-23 16:31
+By: euspectre
+
+Comment:
+Yes, this is a known issue, see http://openfacts2.berlios.de/wikien/index.php/KEDR_Known_Issues
+
+We will fix it in the future versions of KEDR.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17731&group_id=11780
+
+

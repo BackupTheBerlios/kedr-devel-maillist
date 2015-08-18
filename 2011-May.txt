@@ -1,0 +1,308 @@
+From admin at berlios.de  Tue May  3 16:18:09 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 3 May 2011 18:18:09 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18091] Different order of args of
+	kmem_cache_alloc_trace() in SLUB
+Message-ID: <201105031418.p43EI9Jo018918@unicorn.berlios.de>
+
+Bug #18091, was updated on 2011-May-03 18:18
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 7
+Submitted by: euspectre
+Assigned to : euspectre
+Summary: Different order of args of kmem_cache_alloc_trace() in SLUB
+
+Details: On 2.6.38 or newer kernels, the order of arguments is different for kmem_cache_alloc*_trace() functions from SLAB and SLUB allocators. 
+
+KEDR should find out the correct order during the configuration and adapt its components accordingly. Without this, KEDR will cause kernel oops when processing kmem_cache_alloc*_trace() on the recent systems with SLUB allocator (e.g. on Ubuntu 11.04 "Natty Narval").
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18091&group_id=11780
+
+
+From admin at berlios.de  Wed May  4 09:07:42 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Wed, 4 May 2011 11:07:42 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18092] Oops in "instrumentor.01" test on Ubuntu
+	11.04
+Message-ID: <201105040707.p4477gZJ027162@unicorn.berlios.de>
+
+Bug #18092, was updated on 2011-May-04 11:07
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: KEDR Core
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 7
+Submitted by: euspectre
+Assigned to : euspectre
+Summary: Oops in "instrumentor.01" test on Ubuntu 11.04
+
+Details: The test "core.components.instrumentor.01" fails with a kernel oops on Ubuntu 11.04 (32- and 64-bit versions). Here is the system log from 64-bit Ubuntu:
+
+--------
+[  891.499978] BUG: unable to handle kernel paging request at ffffffffa0111016
+[  891.500010] IP: [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500030] PGD 1a05067 PUD 1a09063 PMD 36e45067 PTE 23ad8161
+[  891.500041] Oops: 0003 [#1] SMP 
+[  891.500050] last sysfs file: /sys/devices/system/cpu/cpu1/cache/index2/shared_cpu_map
+[  891.500066] CPU 1 
+[  891.500067] Modules linked in: instrumentor_test_module(+) instrumentor_module binfmt_misc vboxvideo drm vesafb snd_hda_codec_idt snd_hda_intel snd_hda_codec snd_hwdep snd_pcm snd_seq_midi snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device snd ppdev psmouse soundcore serio_raw parport_pc vboxsf vboxguest i2c_piix4 snd_page_alloc lp parport ahci libahci e1000
+[  891.500103] 
+[  891.500112] Pid: 20640, comm: insmod Not tainted 2.6.38-8-generic #42-Ubuntu innotek GmbH VirtualBox
+[  891.500123] RIP: 0010:[<ffffffffa01c1284>]  [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500138] RSP: 0018:ffff880023895e08  EFLAGS: 00010216
+[  891.500139] RAX: 00000000000afff6 RBX: ffffffffa0112000 RCX: ffff88002aea8b20
+[  891.500141] RDX: 0000000000000000 RSI: 0000000000000005 RDI: ffffffffa0111016
+[  891.500143] RBP: ffff880023895e98 R08: ffffffffa011101a R09: 0000000000000000
+[  891.500144] R10: 0000000000000000 R11: 8000000000000000 R12: ffffffffa0111015
+[  891.500146] R13: ffff880023895eb8 R14: 00017f8f601c1000 R15: ffff88002aea8730
+[  891.500153] FS:  00007fd7e763f720(0000) GS:ffff88003fd00000(0000) knlGS:0000000000000000
+[  891.500155] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+[  891.500157] CR2: ffffffffa0111016 CR3: 00000000239cb000 CR4: 00000000000006e0
+[  891.500165] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  891.500166] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+[  891.500168] Process insmod (pid: 20640, threadinfo ffff880023894000, task ffff8800269796e0)
+[  891.500170] Stack:
+[  891.500171]  0000000100000000 0000000100000000 0000000100000000 00000101000000e8
+[  891.500174]  0000000100000000 0000000100000000 0000000100000000 00000401000affe6
+[  891.500177]  0000000000000000 010508080000b000 ffffffffa0111015 ffffffffa011101a
+[  891.500180] Call Trace:
+[  891.500184]  [<ffffffffa0111015>] ? test_module_init+0x15/0x1000 [instrumentor_test_module]
+[  891.500187]  [<ffffffffa011101a>] ? test_module_init+0x1a/0x1000 [instrumentor_test_module]
+[  891.500190]  [<ffffffffa01c152d>] kedr_instrumentor_replace_functions+0x21d/0x390 [instrumentor_module]
+[  891.500193]  [<ffffffffa0111000>] ? test_module_init+0x0/0x1000 [instrumentor_test_module]
+[  891.500195]  [<ffffffffa01c1055>] instrument_module+0x15/0x20 [instrumentor_module]
+[  891.500198]  [<ffffffffa0111010>] test_module_init+0x10/0x1000 [instrumentor_test_module]
+[  891.500271]  [<ffffffff81002175>] do_one_initcall+0x45/0x190
+[  891.500305]  [<ffffffff810a4feb>] sys_init_module+0xfb/0x250
+[  891.500316]  [<ffffffff8100c002>] system_call_fastpath+0x16/0x1b
+[  891.500317] Code: 0e eb 2e 0f 1f 40 00 48 85 d2 74 25 48 89 d1 48 3b 41 10 48 8b 11 0f 18 0a 75 ec 48 8b 41 18 48 85 c0 74 0d 4f 8d 04 04 44 29 c0 <89> 07 0f b6 75 be 40 0f b6 f6 e9 82 fe ff ff be 40 01 00 00 48 
+[  891.500350] RIP  [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500353]  RSP <ffff880023895e08>
+[  891.500354] CR2: ffffffffa0111016
+[  891.500381] ---[ end trace 040026fc91efcba6 ]--- 
+--------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18092&group_id=11780
+
+
+From admin at berlios.de  Wed May  4 10:57:35 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Wed, 4 May 2011 12:57:35 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18092] Oops in "instrumentor.01" test on Ubuntu
+	11.04
+Message-ID: <201105040857.p448vZug000947@unicorn.berlios.de>
+
+Bug #18092, was updated on 2011-May-04 11:07
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Tests
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: euspectre
+Assigned to : tsyvarev
+Summary: Oops in "instrumentor.01" test on Ubuntu 11.04
+
+Details: The test "core.components.instrumentor.01" fails with a kernel oops on Ubuntu 11.04 (32- and 64-bit versions). Here is the system log from 64-bit Ubuntu:
+
+--------
+[  891.499978] BUG: unable to handle kernel paging request at ffffffffa0111016
+[  891.500010] IP: [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500030] PGD 1a05067 PUD 1a09063 PMD 36e45067 PTE 23ad8161
+[  891.500041] Oops: 0003 [#1] SMP 
+[  891.500050] last sysfs file: /sys/devices/system/cpu/cpu1/cache/index2/shared_cpu_map
+[  891.500066] CPU 1 
+[  891.500067] Modules linked in: instrumentor_test_module(+) instrumentor_module binfmt_misc vboxvideo drm vesafb snd_hda_codec_idt snd_hda_intel snd_hda_codec snd_hwdep snd_pcm snd_seq_midi snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device snd ppdev psmouse soundcore serio_raw parport_pc vboxsf vboxguest i2c_piix4 snd_page_alloc lp parport ahci libahci e1000
+[  891.500103] 
+[  891.500112] Pid: 20640, comm: insmod Not tainted 2.6.38-8-generic #42-Ubuntu innotek GmbH VirtualBox
+[  891.500123] RIP: 0010:[<ffffffffa01c1284>]  [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500138] RSP: 0018:ffff880023895e08  EFLAGS: 00010216
+[  891.500139] RAX: 00000000000afff6 RBX: ffffffffa0112000 RCX: ffff88002aea8b20
+[  891.500141] RDX: 0000000000000000 RSI: 0000000000000005 RDI: ffffffffa0111016
+[  891.500143] RBP: ffff880023895e98 R08: ffffffffa011101a R09: 0000000000000000
+[  891.500144] R10: 0000000000000000 R11: 8000000000000000 R12: ffffffffa0111015
+[  891.500146] R13: ffff880023895eb8 R14: 00017f8f601c1000 R15: ffff88002aea8730
+[  891.500153] FS:  00007fd7e763f720(0000) GS:ffff88003fd00000(0000) knlGS:0000000000000000
+[  891.500155] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+[  891.500157] CR2: ffffffffa0111016 CR3: 00000000239cb000 CR4: 00000000000006e0
+[  891.500165] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  891.500166] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+[  891.500168] Process insmod (pid: 20640, threadinfo ffff880023894000, task ffff8800269796e0)
+[  891.500170] Stack:
+[  891.500171]  0000000100000000 0000000100000000 0000000100000000 00000101000000e8
+[  891.500174]  0000000100000000 0000000100000000 0000000100000000 00000401000affe6
+[  891.500177]  0000000000000000 010508080000b000 ffffffffa0111015 ffffffffa011101a
+[  891.500180] Call Trace:
+[  891.500184]  [<ffffffffa0111015>] ? test_module_init+0x15/0x1000 [instrumentor_test_module]
+[  891.500187]  [<ffffffffa011101a>] ? test_module_init+0x1a/0x1000 [instrumentor_test_module]
+[  891.500190]  [<ffffffffa01c152d>] kedr_instrumentor_replace_functions+0x21d/0x390 [instrumentor_module]
+[  891.500193]  [<ffffffffa0111000>] ? test_module_init+0x0/0x1000 [instrumentor_test_module]
+[  891.500195]  [<ffffffffa01c1055>] instrument_module+0x15/0x20 [instrumentor_module]
+[  891.500198]  [<ffffffffa0111010>] test_module_init+0x10/0x1000 [instrumentor_test_module]
+[  891.500271]  [<ffffffff81002175>] do_one_initcall+0x45/0x190
+[  891.500305]  [<ffffffff810a4feb>] sys_init_module+0xfb/0x250
+[  891.500316]  [<ffffffff8100c002>] system_call_fastpath+0x16/0x1b
+[  891.500317] Code: 0e eb 2e 0f 1f 40 00 48 85 d2 74 25 48 89 d1 48 3b 41 10 48 8b 11 0f 18 0a 75 ec 48 8b 41 18 48 85 c0 74 0d 4f 8d 04 04 44 29 c0 <89> 07 0f b6 75 be 40 0f b6 f6 e9 82 fe ff ff be 40 01 00 00 48 
+[  891.500350] RIP  [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500353]  RSP <ffff880023895e08>
+[  891.500354] CR2: ffffffffa0111016
+[  891.500381] ---[ end trace 040026fc91efcba6 ]--- 
+--------
+
+Follow-Ups:
+
+Date: 2011-May-04 12:57
+By: euspectre
+
+Comment:
+This is a problem in the test rather than in KEDR Core itself. The test attempts to instrument a target module that is already running. 
+
+However, the module loader makes the code of the target write-protected after all notifications are processed (CONFIG_DEBUG_SET_MODULE_RONX=y), hence the problem. See the implementation of init_module syscall in kernel/module.c for details.
+
+Note that KEDR itself instruments the target when the notifications are being processed, so it is not affected by the problem.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18092&group_id=11780
+
+
+From admin at berlios.de  Thu May  5 09:01:29 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Thu, 5 May 2011 11:01:29 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18091] Different order of args of
+	kmem_cache_alloc_* => fixed in Hg
+Message-ID: <201105050701.p4571TWg024489@unicorn.berlios.de>
+
+Bug #18091, was updated on 2011-May-03 18:18
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 7
+Submitted by: euspectre
+Assigned to : none
+Summary: Different order of args of kmem_cache_alloc_* => fixed in Hg
+
+Details: On 2.6.38 or newer kernels, the order of arguments is different for kmem_cache_alloc*_trace() functions from SLAB and SLUB allocators. 
+
+KEDR should find out the correct order during the configuration and adapt its components accordingly. Without this, KEDR will cause kernel oops when processing kmem_cache_alloc*_trace() on the recent systems with SLUB allocator (e.g. on Ubuntu 11.04 "Natty Narval").
+
+Follow-Ups:
+
+Date: 2011-May-05 11:01
+By: euspectre
+
+Comment:
+The problem is fixed, the updated sources are in the repository.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18091&group_id=11780
+
+
+From admin at berlios.de  Thu May  5 09:02:22 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Thu, 5 May 2011 11:02:22 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18092] Oops in "instrumentor.01" test on Ubuntu
+	11.04=> fixed in Hg
+Message-ID: <201105050702.p4572MCr025303@unicorn.berlios.de>
+
+Bug #18092, was updated on 2011-May-04 11:07
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Tests
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: euspectre
+Assigned to : none
+Summary: Oops in "instrumentor.01" test on Ubuntu 11.04=> fixed in Hg
+
+Details: The test "core.components.instrumentor.01" fails with a kernel oops on Ubuntu 11.04 (32- and 64-bit versions). Here is the system log from 64-bit Ubuntu:
+
+--------
+[  891.499978] BUG: unable to handle kernel paging request at ffffffffa0111016
+[  891.500010] IP: [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500030] PGD 1a05067 PUD 1a09063 PMD 36e45067 PTE 23ad8161
+[  891.500041] Oops: 0003 [#1] SMP 
+[  891.500050] last sysfs file: /sys/devices/system/cpu/cpu1/cache/index2/shared_cpu_map
+[  891.500066] CPU 1 
+[  891.500067] Modules linked in: instrumentor_test_module(+) instrumentor_module binfmt_misc vboxvideo drm vesafb snd_hda_codec_idt snd_hda_intel snd_hda_codec snd_hwdep snd_pcm snd_seq_midi snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device snd ppdev psmouse soundcore serio_raw parport_pc vboxsf vboxguest i2c_piix4 snd_page_alloc lp parport ahci libahci e1000
+[  891.500103] 
+[  891.500112] Pid: 20640, comm: insmod Not tainted 2.6.38-8-generic #42-Ubuntu innotek GmbH VirtualBox
+[  891.500123] RIP: 0010:[<ffffffffa01c1284>]  [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500138] RSP: 0018:ffff880023895e08  EFLAGS: 00010216
+[  891.500139] RAX: 00000000000afff6 RBX: ffffffffa0112000 RCX: ffff88002aea8b20
+[  891.500141] RDX: 0000000000000000 RSI: 0000000000000005 RDI: ffffffffa0111016
+[  891.500143] RBP: ffff880023895e98 R08: ffffffffa011101a R09: 0000000000000000
+[  891.500144] R10: 0000000000000000 R11: 8000000000000000 R12: ffffffffa0111015
+[  891.500146] R13: ffff880023895eb8 R14: 00017f8f601c1000 R15: ffff88002aea8730
+[  891.500153] FS:  00007fd7e763f720(0000) GS:ffff88003fd00000(0000) knlGS:0000000000000000
+[  891.500155] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+[  891.500157] CR2: ffffffffa0111016 CR3: 00000000239cb000 CR4: 00000000000006e0
+[  891.500165] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  891.500166] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+[  891.500168] Process insmod (pid: 20640, threadinfo ffff880023894000, task ffff8800269796e0)
+[  891.500170] Stack:
+[  891.500171]  0000000100000000 0000000100000000 0000000100000000 00000101000000e8
+[  891.500174]  0000000100000000 0000000100000000 0000000100000000 00000401000affe6
+[  891.500177]  0000000000000000 010508080000b000 ffffffffa0111015 ffffffffa011101a
+[  891.500180] Call Trace:
+[  891.500184]  [<ffffffffa0111015>] ? test_module_init+0x15/0x1000 [instrumentor_test_module]
+[  891.500187]  [<ffffffffa011101a>] ? test_module_init+0x1a/0x1000 [instrumentor_test_module]
+[  891.500190]  [<ffffffffa01c152d>] kedr_instrumentor_replace_functions+0x21d/0x390 [instrumentor_module]
+[  891.500193]  [<ffffffffa0111000>] ? test_module_init+0x0/0x1000 [instrumentor_test_module]
+[  891.500195]  [<ffffffffa01c1055>] instrument_module+0x15/0x20 [instrumentor_module]
+[  891.500198]  [<ffffffffa0111010>] test_module_init+0x10/0x1000 [instrumentor_test_module]
+[  891.500271]  [<ffffffff81002175>] do_one_initcall+0x45/0x190
+[  891.500305]  [<ffffffff810a4feb>] sys_init_module+0xfb/0x250
+[  891.500316]  [<ffffffff8100c002>] system_call_fastpath+0x16/0x1b
+[  891.500317] Code: 0e eb 2e 0f 1f 40 00 48 85 d2 74 25 48 89 d1 48 3b 41 10 48 8b 11 0f 18 0a 75 ec 48 8b 41 18 48 85 c0 74 0d 4f 8d 04 04 44 29 c0 <89> 07 0f b6 75 be 40 0f b6 f6 e9 82 fe ff ff be 40 01 00 00 48 
+[  891.500350] RIP  [<ffffffffa01c1284>] do_process_area+0x224/0x2b0 [instrumentor_module]
+[  891.500353]  RSP <ffff880023895e08>
+[  891.500354] CR2: ffffffffa0111016
+[  891.500381] ---[ end trace 040026fc91efcba6 ]--- 
+--------
+
+Follow-Ups:
+
+Date: 2011-May-05 11:02
+By: euspectre
+
+Comment:
+The problem is fixed, the updated sources are in the repository.
+-------------------------------------------------------
+
+Date: 2011-May-04 12:57
+By: euspectre
+
+Comment:
+This is a problem in the test rather than in KEDR Core itself. The test attempts to instrument a target module that is already running. 
+
+However, the module loader makes the code of the target write-protected after all notifications are processed (CONFIG_DEBUG_SET_MODULE_RONX=y), hence the problem. See the implementation of init_module syscall in kernel/module.c for details.
+
+Note that KEDR itself instruments the target when the notifications are being processed, so it is not affected by the problem.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18092&group_id=11780
+
+

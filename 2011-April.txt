@@ -1,0 +1,184 @@
+From admin at berlios.de  Tue Apr 12 10:56:35 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 12 Apr 2011 12:56:35 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #17591] different binary and source version of
+	the linux kernel
+Message-ID: <201104120856.p3C8uZtL013993@unicorn.berlios.de>
+
+Bug #17591, was updated on 2010-Oct-11 17:27
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: andrey86
+Assigned to : euspectre
+Summary: different binary and source version of the linux kernel
+
+Details: The binary version of my linux kernel is 2.6.31.5-0.1-desktop (uname -r output), but the version of installed kernel sources is 2.6.31.14-0.1. So, the example ./share/kedr/examples/sample_target/ cannot be built because of the following errors:
+
+make: *** /lib/modules/2.6.31.5-0.1-desktop/build: No such file or directory.  Stop.
+
+My system has /usr/src/linux-2.6.31.14-0.1 directory instead of /lib/modules/2.6.31.5-0.1-desktop and is not provide lower versions of kernel sources in the official software repository.
+
+Follow-Ups:
+
+Date: 2010-Oct-13 11:59
+By: tsyvarev
+
+Comment:
+By default, KEDR is built  against version of the kernel, which is currently running. User should provide by himself existence of infrastructure for build kernel modules in '/lib/modules/<current-kernel-version>/build'.
+
+Possibility to build KEDR against arbitrary kernel version is introduce now in experimental mode. For use it, one should set KBUILD_VERSION_STRING cmake-variable to the version of the preferred kernel when configuring KEDR.
+Again, infrastructure for build kernel modules should be accessible via '/lib/modules/<kernel-version>/build'.
+
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17591&group_id=11780
+
+
+From admin at berlios.de  Tue Apr 12 10:59:49 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 12 Apr 2011 12:59:49 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #18008] Leak checker need to intercept more
+	functions
+Message-ID: <201104120859.p3C8xn3G014234@unicorn.berlios.de>
+
+Bug #18008, was updated on 2011-Mar-18 16:19
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Payload modules (plugins)
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: tsyvarev
+Assigned to : none
+Summary: Leak checker need to intercept more functions
+
+Details: 'nfs' kernel module uses at least next functions, which internally call alloc/free-like functions:
+
+add_to_page_cache ~ free
+posix_acl_from_mode ~ alloc
+match_strdup ~ alloc
+
+Without interception and making model of these functions, leak checker cannot produce correct verdict about memory allocations/deallocation.
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=18008&group_id=11780
+
+
+From admin at berlios.de  Tue Apr 12 15:51:09 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 12 Apr 2011 17:51:09 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #17591] different binary and source version of
+	the linux kernel
+Message-ID: <201104121351.p3CDp9Zh010222@unicorn.berlios.de>
+
+Bug #17591, was updated on 2010-Oct-11 17:27
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Open
+Resolution: Fixed
+Bug Group: None
+Priority: 5
+Submitted by: andrey86
+Assigned to : none
+Summary: different binary and source version of the linux kernel
+
+Details: The binary version of my linux kernel is 2.6.31.5-0.1-desktop (uname -r output), but the version of installed kernel sources is 2.6.31.14-0.1. So, the example ./share/kedr/examples/sample_target/ cannot be built because of the following errors:
+
+make: *** /lib/modules/2.6.31.5-0.1-desktop/build: No such file or directory.  Stop.
+
+My system has /usr/src/linux-2.6.31.14-0.1 directory instead of /lib/modules/2.6.31.5-0.1-desktop and is not provide lower versions of kernel sources in the official software repository.
+
+Follow-Ups:
+
+Date: 2011-Apr-12 17:51
+By: euspectre
+
+Comment:
+Starting from version 0.2.1, KEDR supports cross-builds. Among other things, building for a different kernel version on the same machine or at least the machine with the same architecture is now supported. 
+
+Details:
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:KEDR_-_HowTo_Another_Kernel
+-------------------------------------------------------
+
+Date: 2010-Oct-13 11:59
+By: tsyvarev
+
+Comment:
+By default, KEDR is built  against version of the kernel, which is currently running. User should provide by himself existence of infrastructure for build kernel modules in '/lib/modules/<current-kernel-version>/build'.
+
+Possibility to build KEDR against arbitrary kernel version is introduce now in experimental mode. For use it, one should set KBUILD_VERSION_STRING cmake-variable to the version of the preferred kernel when configuring KEDR.
+Again, infrastructure for build kernel modules should be accessible via '/lib/modules/<kernel-version>/build'.
+
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17591&group_id=11780
+
+
+From admin at berlios.de  Tue Apr 12 15:51:35 2011
+From: admin at berlios.de (admin at berlios.de)
+Date: Tue, 12 Apr 2011 17:51:35 +0400 (MSD)
+Subject: [Kedr-devel] [Bug #17591] different binary and source version of
+	the linux kernel
+Message-ID: <201104121351.p3CDpZKW010804@unicorn.berlios.de>
+
+Bug #17591, was updated on 2010-Oct-11 17:27
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Closed
+Resolution: Fixed
+Bug Group: None
+Priority: 5
+Submitted by: andrey86
+Assigned to : none
+Summary: different binary and source version of the linux kernel
+
+Details: The binary version of my linux kernel is 2.6.31.5-0.1-desktop (uname -r output), but the version of installed kernel sources is 2.6.31.14-0.1. So, the example ./share/kedr/examples/sample_target/ cannot be built because of the following errors:
+
+make: *** /lib/modules/2.6.31.5-0.1-desktop/build: No such file or directory.  Stop.
+
+My system has /usr/src/linux-2.6.31.14-0.1 directory instead of /lib/modules/2.6.31.5-0.1-desktop and is not provide lower versions of kernel sources in the official software repository.
+
+Follow-Ups:
+
+Date: 2011-Apr-12 17:51
+By: euspectre
+
+Comment:
+Starting from version 0.2.1, KEDR supports cross-builds. Among other things, building for a different kernel version on the same machine or at least the machine with the same architecture is now supported. 
+
+Details:
+http://openfacts2.berlios.de/wikien/index.php/BerliosProject:KEDR_-_HowTo_Another_Kernel
+-------------------------------------------------------
+
+Date: 2010-Oct-13 11:59
+By: tsyvarev
+
+Comment:
+By default, KEDR is built  against version of the kernel, which is currently running. User should provide by himself existence of infrastructure for build kernel modules in '/lib/modules/<current-kernel-version>/build'.
+
+Possibility to build KEDR against arbitrary kernel version is introduce now in experimental mode. For use it, one should set KBUILD_VERSION_STRING cmake-variable to the version of the preferred kernel when configuring KEDR.
+Again, infrastructure for build kernel modules should be accessible via '/lib/modules/<kernel-version>/build'.
+
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17591&group_id=11780
+
+

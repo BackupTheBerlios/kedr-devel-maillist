@@ -1,0 +1,56 @@
+From admin at berlios.de  Fri Dec 17 15:28:55 2010
+From: admin at berlios.de (admin at berlios.de)
+Date: Fri, 17 Dec 2010 17:28:55 +0300 (MSK)
+Subject: [Kedr-devel] [Bug #17731] Issues with parallel make => Fixed in Hg
+Message-ID: <201012171428.oBHESthB016447@unicorn.berlios.de>
+
+Bug #17731, was updated on 2010-Nov-23 15:44
+Here is a current snapshot of the bug.
+
+Project: KEDR
+Category: Build & Install
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: d_uragan
+Assigned to : none
+Summary: Issues with parallel make => Fixed in Hg
+
+Details: With alias make='make -j2', kedr build fails with the following log:
+
+Scanning dependencies of target kedr_base
+[  0%] Scanning dependencies of target kedr_controller
+Generating base.c
+make[2]: *** No rule to make target `base/Module.symvers', needed by `controller/kedr_controller.ko'.  Stop. 
+make[1]: *** [controller/CMakeFiles/kedr_controller.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[  0%] Generating kedr_base.ko, Module.symvers
+make[3]: warning: jobserver unavailable: using -j1.  Add `+' to parent make rule.
+[  3%] Built target kedr_base
+make: *** [all] Error 2
+
+If I now call 'make' once more, the build continues and finishes successfully.
+
+Follow-Ups:
+
+Date: 2010-Dec-17 17:28
+By: euspectre
+
+Comment:
+This issue should now be fixed in the repository
+-------------------------------------------------------
+
+Date: 2010-Nov-23 16:31
+By: euspectre
+
+Comment:
+Yes, this is a known issue, see http://openfacts2.berlios.de/wikien/index.php/KEDR_Known_Issues
+
+We will fix it in the future versions of KEDR.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=17731&group_id=11780
+
+
